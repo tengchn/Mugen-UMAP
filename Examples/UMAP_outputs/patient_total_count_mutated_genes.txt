@@ -1,0 +1,12 @@
+The average total count of mutated genes for Patient 16011 is 1595.87, with a minimum of 1332 and a maximum of 1938.
+The average total count of mutated genes for Patient 16031 is 1986.25, with a minimum of 1644 and a maximum of 2612.
+The average total count of mutated genes for Patient 17004 is 193.98, with a minimum of 106 and a maximum of 326.
+The average total count of mutated genes for Patient 17005 is 374.17, with a minimum of 228 and a maximum of 520.
+The average total count of mutated genes for Patient 17008 is 661.0, with a minimum of 456 and a maximum of 867.
+The average total count of mutated genes for Patient 17011 is 271.79, with a minimum of 174 and a maximum of 376.
+The average total count of mutated genes for Patient 17012 is 306.35, with a minimum of 208 and a maximum of 428.
+The average total count of mutated genes for Patient 17017 is 82.67, with a minimum of 35 and a maximum of 114.
+The average total count of mutated genes for Patient 17028 is 97.15, with a minimum of 60 and a maximum of 133.
+The average total count of mutated genes for Patient 17029 is 152.56, with a minimum of 63 and a maximum of 195.
+The average total count of mutated genes for Patient 17030 is 563.67, with a minimum of 288 and a maximum of 674.
+The average total count of mutated genes for Patient 18001 is 155.71, with a minimum of 88 and a maximum of 203.
