@@ -1,0 +1,15 @@
+Patient 16011 has 3047 mutated genes.
+Patient 17008 has 2030 mutated genes.
+Patient 17011 has 659 mutated genes.
+Patient 17012 has 1166 mutated genes.
+Patient 17028 has 586 mutated genes.
+Patient 17030 has 589 mutated genes.
+Patient 18001 has 183 mutated genes.
+Patients of the same histology type Adenocarcinoma have 5186 overlap mutated genes.
+Patient 17004 has 1247 mutated genes.
+Patient 17005 has 1244 mutated genes.
+Patients of the same histology type Squamous have 2188 overlap mutated genes.
+Patient 17017 has 402 mutated genes.
+Patients of the same histology type Large have 402 overlap mutated genes.
+Patient 17029 has 605 mutated genes.
+Patients of the same histology type Spindle have 605 overlap mutated genes.
