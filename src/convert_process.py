@@ -58,7 +58,7 @@ def process_patient_file(patient_file):
     """
     df = pd.read_csv(patient_file, sep="\t", header=0, quotechar='"', low_memory=False)
     df = df[df['ExonicFunc.refGene'] == "nonsynonymous SNV"]
-    return df.groupby('Gene.refGene').size().reset_index(name=patient_file.split('.')[0].split('/')[1])
+    return df.groupby('Gene.refGene').size().reset_index(name=os.path.basename(patient_file).split('.')[0])
 
 def enhance_sample_names(annovar_stat_all, patients_stage):
     """

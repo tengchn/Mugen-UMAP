@@ -9,14 +9,15 @@ import os
 import shutil
 import warnings
 from venny4py.venny4py import venny4py
+import matplotlib
+matplotlib.use('Agg')
 
 output_dir = "UMAP_outputs"
 if os.path.exists(output_dir):
     shutil.rmtree(output_dir)
 os.makedirs(output_dir)
 #suppress warnings
-warnings.filterwarnings('ignore', message='Received a view of an AnnData.')
-warnings.filterwarnings('ignore', message='Making a copy.')
+warnings.filterwarnings("ignore")
 
 def umap_plot(umap_input_file, min_cells=3, min_genes=30, n_top_genes=3000, n_neighbors=60, n_pcs=40, leiden_resolution=1.5, plot_venn=True):
     # Load data and transpose to have genes as columns
