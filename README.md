@@ -1,7 +1,6 @@
 # Mugen-UMAP: UMAP visualization and clustering of single-cell somatic gene mutations.
 
 This Python program provides a comprehensive pipeline for processing ANNOVAR files, converting them into AnnData format, and generating UMAP visualizations along with various statistical analyses based on single-cell DNA sequencing data.
-
 &NewLine;
 
 ![Mugen-UMAP diagram](Mugen-UMAP.png)
