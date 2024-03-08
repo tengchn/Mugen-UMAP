@@ -26,7 +26,7 @@ python3 src/Mugen-UMAP.py -h
 Mugen-UMAP offers three main features:
 
 1. **Convert**
-   - Convert ANNOVAR files to UMAP input format (i.e., AnnData format).
+   - Convert ANNOVAR files and patient information metadata to UMAP input format (i.e., AnnData format).
 ```
 python3 src/Mugen-UMAP.py convert [-h] [-i INPUT] [-p PATIENT] [-o OUTPUT]
 
