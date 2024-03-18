@@ -33,14 +33,14 @@ if __name__ == "__main__":
 
     # Convert command
     parser_convert = subparsers.add_parser('convert', help='Convert ANNOVAR files and patient information metadata to UMAP input format (i.e., AnnData format).')
-    parser_convert.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly.[required]")
+    parser_convert.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly. [required]")
     parser_convert.add_argument("-p", "--patient", type=str, help="Input patient information metadata file. [required]")
-    parser_convert.add_argument("-o", "--output", type=str, help="Output AnnData CSV format.[required]")
+    parser_convert.add_argument("-o", "--output", type=str, help="Output AnnData CSV format. [required]")
 
     # Umap_plot command
     parser_umap = subparsers.add_parser('umap', help='Plot UMAP figure from preprocessed data.')
-    parser_umap.add_argument("-i",'--input_umap', type=str, help='Path to UMAP input CSV file.[required]')
-    parser_umap.add_argument("-c", "--category_info", type=str, help="Input patient categorical information used in the sample name. For exmaple, the category_info for '18001_IIB_Adenocarcinoma_Metastasis_p3D01_S76_001' should be 'Patient_stage_type_status'.[required]")
+    parser_umap.add_argument("-i",'--input_umap', type=str, help='Path to UMAP input CSV file (i.e., AnnData format). [required]')
+    parser_umap.add_argument("-c", "--category_info", type=str, help="Input patient categorical information used in the sample name. For exmaple, the category_info for '18001_IIB_Adenocarcinoma_Metastasis_p3D01_S76_001' should be 'Patient_stage_type_status'. [required]")
     parser_umap.add_argument('--min_cells', type=int, default=3, help='Minimum number of cells for filtering (default=3).')
     parser_umap.add_argument('--min_genes', type=int, default=30, help='Minimum number of genes for filtering (default=30).')
     parser_umap.add_argument('--n_top_genes', type=int, default=3000, help='Number of top genes (default=3000).')
@@ -48,12 +48,12 @@ if __name__ == "__main__":
     parser_umap.add_argument('--n_pcs', type=int, default=40, help='Number of principal components (default=40).')
     parser_umap.add_argument('--leiden_resolution', type=float, default=1.5, help='Leiden algorithm resolution (default=1.5).')
     parser_umap.add_argument('--plot_venn', action='store_false', help='Whether to plot Venn diagram (default=True).')
-    parser_umap.add_argument('--venn', type=str, default='type', help='Which categorical information to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.')
+    parser_umap.add_argument('--venn', type=str, default='type', help='Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.')
 
     # All command
     parser_all = subparsers.add_parser('all', help='Execute full pipeline from ANNOVAR files to UMAP plotting.')
-    parser_all.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly.[required]")
-    parser_all.add_argument("-p", "--patient", type=str, help="Input patient information metadata file.[required]")
+    parser_all.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly. [required]")
+    parser_all.add_argument("-p", "--patient", type=str, help="Input patient information metadata file. [required]")
     parser_all.add_argument('--min_cells', type=int, default=3, help='Minimum number of cells for filtering (default=3).')
     parser_all.add_argument('--min_genes', type=int, default=30, help='Minimum number of genes for filtering (default=30).')
     parser_all.add_argument('--n_top_genes', type=int, default=3000, help='Number of top genes (default=3000).')
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     parser_all.add_argument('--n_pcs', type=int, default=40, help='Number of principal components (default=40).')
     parser_all.add_argument('--leiden_resolution', type=float, default=1.5, help='Leiden algorithm resolution (default=1.5).')
     parser_all.add_argument('--plot_venn', action='store_false', help='Whether to plot Venn diagram (default=True).')
-    parser_all.add_argument('--venn', type=str, default='type', help='Which categorical information to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.')
+    parser_all.add_argument('--venn', type=str, default='type', help='Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.')
 
     args = parser.parse_args()
 
