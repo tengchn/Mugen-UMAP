@@ -19,7 +19,7 @@ os.makedirs(output_dir)
 #suppress warnings
 warnings.filterwarnings("ignore")
 
-def umap_plot(umap_input_file, min_cells=3, min_genes=30, n_top_genes=3000, n_neighbors=60, n_pcs=40, leiden_resolution=1.5, plot_venn=True):
+def umap_plot(umap_input_file, category_info, min_cells=3, min_genes=30, n_top_genes=3000, n_neighbors=60, n_pcs=40, leiden_resolution=1.5, plot_venn=True, venn='type'):
     # Load data and transpose to have genes as columns
     adata = sc.read_csv(umap_input_file).T
     sc.settings.verbosity = 'error'
@@ -28,11 +28,9 @@ def umap_plot(umap_input_file, min_cells=3, min_genes=30, n_top_genes=3000, n_ne
     sc.pp.filter_genes(adata, min_cells)
     sc.pp.filter_cells(adata, min_genes)
     
-    # Add metadata from index
-    adata.obs['patient'] = adata.obs.index.str.split('_').map(lambda x: x[0])
-    adata.obs['stage'] = adata.obs.index.str.split('_').map(lambda x: x[1])
-    adata.obs['type'] = adata.obs.index.str.split('_').map(lambda x: x[2])
-    adata.obs['status'] = adata.obs.index.str.split('_').map(lambda x: x[3])
+    metadata_fields = category_info.split('_') 
+    for i, field in enumerate(metadata_fields):
+        adata.obs[field] = adata.obs.index.str.split('_').map(lambda x: x[i] if len(x) > i else 'unknown')
     
     # Output adata.obs details
     adata.obs.to_csv(f"{output_dir}/adata_obs_details.txt", sep='\t')
@@ -48,9 +46,12 @@ def umap_plot(umap_input_file, min_cells=3, min_genes=30, n_top_genes=3000, n_ne
     adata = adata[adata.obs.n_genes_by_counts.values < upper_lim]
     
     # Gene overlap analysis and plotting
-    gene_overlap = calculate_gene_overlap(adata)
-    if plot_venn:
-    	plot_venn_diagram(gene_overlap)    
+    if plot_venn and venn:
+    	gene_overlap = calculate_gene_overlap(adata, venn)
+    	if len(gene_overlap) > 4:
+        	raise ValueError("Error: Cannot plot a Venn diagram for more than 4 groups. Exiting.")
+    	else:
+    		plot_venn_diagram(gene_overlap)    
     
     # Normalization and log transformation
     sc.pp.normalize_total(adata, target_sum=1e4)
@@ -75,43 +76,44 @@ def umap_plot(umap_input_file, min_cells=3, min_genes=30, n_top_genes=3000, n_ne
     
     # UMAP plots
     sc.pl.umap(adata, color='leiden', save='_leiden.pdf')    
-    sc.pl.umap(adata, color='status', save='_status.pdf')
-    sc.pl.umap(adata, color='type', save='_type.pdf')
-    sc.pl.umap(adata, color='patient',legend_loc='on data', save='_patient.pdf')
-    sc.pl.umap(adata, color='stage', save='_stage.pdf')
+    for category in metadata_fields:
+    	if category == "Patient":
+    		sc.pl.umap(adata, color=category, legend_loc='on data', save=f"_{category}.pdf")
+    	else:
+    		sc.pl.umap(adata, color=category, save=f"_{category}.pdf")
     
-
 def patient_summary(adata):
     summary_path = f"{output_dir}/patient_total_count_mutated_genes.txt"
     with open(summary_path, 'w') as summary_file:
-        for i in adata.obs.patient.unique():
-            patient_data = adata.obs[adata.obs.patient == i]
-            mean_count = round(patient_data.total_counts.mean(), 2)
+        for i in adata.obs.Patient.unique():
+            patient_data = adata.obs[adata.obs.Patient == i]
+            mean_count = patient_data.total_counts.mean()
             min_count = int(patient_data.total_counts.min())
             max_count = int(patient_data.total_counts.max())
-            summary_line = f"The average total count of mutated genes for Patient {i} is {mean_count}, with a minimum of {min_count} and a maximum of {max_count}.\n"
+            summary_line = f"The average total count of mutated genes for Patient {i} is {round(mean_count, 2)}, with a minimum of {min_count} and a maximum of {max_count}.\n"
             summary_file.write(summary_line)
             
-def calculate_gene_overlap(adata):
+def calculate_gene_overlap(adata, venn):
     gene_overlap = {}
     overlap_info = f"{output_dir}/mutated_gene_info.txt"
     with open(overlap_info, "w") as overlap_file:
-        for cell_type in adata.obs.type.unique():
-            adata_subset = adata[adata.obs['type'] == cell_type]
-            gene_overlap[cell_type] = set()
-
-            for patient_id in adata_subset.obs.patient.unique():
-                adata_patient = adata_subset[adata_subset.obs['patient'] == patient_id]
+        unique_categories = adata.obs[venn].unique()
+        
+        for category in unique_categories:
+            adata_subset = adata[adata.obs[venn] == category]
+            gene_overlap[category] = set()
+            for patient_id in adata_subset.obs.Patient.unique():
+                adata_patient = adata_subset[adata_subset.obs['Patient'] == patient_id]
                 gene_counts = adata_patient.X > 0
                 mutated_genes = adata_patient.var_names[gene_counts.sum(axis=0) > 1]
                 overlap_file.write(f"Patient {patient_id} has {len(mutated_genes)} mutated genes.\n")
-                gene_overlap[cell_type].update(set(mutated_genes))
-            overlap_file.write(f"Patients of the same histology type {cell_type} have {len(gene_overlap[cell_type])} overlap mutated genes.\n")
+                gene_overlap[category].update(set(mutated_genes))
+            overlap_file.write(f"Patients with the same {venn} of {category} have {len(gene_overlap[category])} overlap mutated genes.\n")
     return gene_overlap
 
 def plot_venn_diagram(gene_overlap):
     # Assuming venny4py is already correctly set up for your environment
     # Prepare sets for the Venn diagram
-    sets = {key: gene_overlap[key] for key in sorted(gene_overlap.keys())[:4]}  # Adjust based on actual data
+    sets = {key: gene_overlap[key] for key in sorted(gene_overlap.keys())[:len(gene_overlap)]}  # Adjust based on actual data
     venny4py(sets=sets)
             
