@@ -37,7 +37,8 @@ options:
   -p PATIENT, --patient PATIENT
                         Input patient information metadata file. [required]
   -o OUTPUT, --output OUTPUT
-                        Output AnnData CSV format.
+                        Output AnnData CSV format. [required]
+
   Example: python3 src/Mugen-UMAP.py convert -i Examples/SomSNVs_annovar.zip -p Examples/Patients_Stage.csv -o Examples/umap_format.csv
 ```
 &NewLine;
@@ -45,13 +46,16 @@ options:
 2. **UMAP plot**
    - Plot UMAP figures from preprocessed data (i.e., AnnData format).
 ```
-python3 src/Mugen-UMAP.py umap [-h] [-i INPUT_UMAP] [--min_cells MIN_CELLS] [--min_genes MIN_GENES] [--n_top_genes N_TOP_GENES]
-                               [--n_neighbors N_NEIGHBORS] [--n_pcs N_PCS] [--leiden_resolution LEIDEN_RESOLUTION] [--plot_venn]
+python3 src/Mugen-UMAP.py umap [-h] [-i INPUT_UMAP] [-c CATEGORY_INFO] [--min_cells MIN_CELLS] [--min_genes MIN_GENES] [--n_top_genes N_TOP_GENES]
+                               [--n_neighbors N_NEIGHBORS] [--n_pcs N_PCS] [--leiden_resolution LEIDEN_RESOLUTION] [--plot_venn] [--venn VENN]
 
 options:
   -h, --help            show this help message and exit
   -i INPUT_UMAP, --input_umap INPUT_UMAP
-                        Path to UMAP input CSV file.
+                        Path to UMAP input CSV file (i.e., AnnData format). [required]
+  -c CATEGORY_INFO, --category_info CATEGORY_INFO
+                        Input patient categorical information used in the sample name. For exmaple, the category_info for
+                        '18001_IIB_Adenocarcinoma_Metastasis_p3D01_S76_001' should be 'Patient_stage_type_status'. [required]
   --min_cells MIN_CELLS
                         Minimum number of cells for filtering (default=3).
   --min_genes MIN_GENES
@@ -64,6 +68,7 @@ options:
   --leiden_resolution LEIDEN_RESOLUTION
                         Leiden algorithm resolution (default=1.5).
   --plot_venn           Whether to plot Venn diagram (default=True).
+  --venn VENN           Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.
 
   Example: python3 src/Mugen-UMAP.py umap -i Examples/umap_format.csv
 ```
