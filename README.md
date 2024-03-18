@@ -33,11 +33,11 @@ python3 src/Mugen-UMAP.py convert [-h] [-i INPUT] [-p PATIENT] [-o OUTPUT]
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Input ANNOVAR zip file or ANNOVAR directory directly
+                        Input ANNOVAR zip file or ANNOVAR directory directly. [required]
   -p PATIENT, --patient PATIENT
-                        Input patient info file, including at least the info of Patient, stage, status, and type (e.g., histology type).
+                        Input patient information metadata file. [required]
   -o OUTPUT, --output OUTPUT
-                        Output UMAP CSV format
+                        Output AnnData CSV format.
   Example: python3 src/Mugen-UMAP.py convert -i Examples/SomSNVs_annovar.zip -p Examples/Patients_Stage.csv -o Examples/umap_format.csv
 ```
 &NewLine;
