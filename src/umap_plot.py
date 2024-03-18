@@ -83,7 +83,7 @@ def umap_plot(umap_input_file, category_info, min_cells=3, min_genes=30, n_top_g
     		sc.pl.umap(adata, color=category, save=f"_{category}.pdf")
     
 def patient_summary(adata, metadata_fields):
-    summary_path = f"{output_dir}/patient_total_count_mutated_genes.txt"
+    summary_path = f"{output_dir}/total_count_mutated_genes.txt"
     with open(summary_path, 'w') as summary_file:
         for i in adata.obs[metadata_fields[0]].unique():
             patient_data = adata.obs[adata.obs[metadata_fields[0]] == i]
