@@ -28,13 +28,13 @@ Mugen-UMAP offers three main features:
 1. **Convert**
    - Convert ANNOVAR files and patient information metadata to UMAP input format (i.e., AnnData format).
 ```
-python3 src/Mugen-UMAP.py convert [-h] [-i INPUT] [-p PATIENT_INFO] [-o OUTPUT]
+python3 src/Mugen-UMAP.py convert [-h] [-i INPUT] [-p PATIENT] [-o OUTPUT]
 
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
                         Input ANNOVAR zip file or ANNOVAR directory directly. [required]
-  -p PATIENT_INFO, --patient PATIENT_INFO
+  -p PATIENT, --patient PATIENT
                         Input patient information metadata file. [required]
   -o OUTPUT, --output OUTPUT
                         Output AnnData CSV format. [required]
@@ -77,14 +77,14 @@ options:
 3. **All**
    - Execute full pipeline from ANNOVAR files to UMAP plotting.
 ```
-python3 src/Mugen-UMAP.py all [-h] [-i INPUT] [-p PATIENT_INFO] [--min_cells MIN_CELLS] [--min_genes MIN_GENES] [--n_top_genes N_TOP_GENES]
+python3 src/Mugen-UMAP.py all [-h] [-i INPUT] [-p PATIENT] [--min_cells MIN_CELLS] [--min_genes MIN_GENES] [--n_top_genes N_TOP_GENES]
                               [--n_neighbors N_NEIGHBORS] [--n_pcs N_PCS] [--leiden_resolution LEIDEN_RESOLUTION] [--plot_venn] [--venn VENN]
 
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
                         Input ANNOVAR zip file or ANNOVAR directory directly. [required]
-  -p PATIENT_INFO, --patient PATIENT_INFO
+  -p PATIENT, --patient PATIENT
                         Input patient information metadata file. [required]
   --min_cells MIN_CELLS
                         Minimum number of cells for filtering (default=3).
