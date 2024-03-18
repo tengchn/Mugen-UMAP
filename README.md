@@ -35,7 +35,7 @@ options:
   -i INPUT, --input INPUT
                         Input ANNOVAR zip file or ANNOVAR directory directly. [required]
   -p PATIENT, --patient PATIENT
-                        Input patient information metadata file. [required]
+                        Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]
   -o OUTPUT, --output OUTPUT
                         Output AnnData CSV format. [required]
 
@@ -83,9 +83,9 @@ python3 src/Mugen-UMAP.py all [-h] [-i INPUT] [-p PATIENT] [--min_cells MIN_CELL
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        Input ANNOVAR zip file or ANNOVAR directory directly. [required]
+                        Input ANNOVAR zip file or ANNOVAR directory directly.  [required]
   -p PATIENT, --patient PATIENT
-                        Input patient information metadata file. [required]
+                        Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]
   --min_cells MIN_CELLS
                         Minimum number of cells for filtering (default=3).
   --min_genes MIN_GENES
