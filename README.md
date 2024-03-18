@@ -35,7 +35,7 @@ options:
   -i INPUT, --input INPUT
                         Input ANNOVAR zip file or ANNOVAR directory directly. [required]
   -p PATIENT, --patient PATIENT
-                        Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]
+                        Input patient information metadata file. If there is a patient ID or sample ID column, it should be placed in the first column. [required]
   -o OUTPUT, --output OUTPUT
                         Output AnnData CSV format. [required]
 
@@ -85,7 +85,7 @@ options:
   -i INPUT, --input INPUT
                         Input ANNOVAR zip file or ANNOVAR directory directly. [required]
   -p PATIENT, --patient PATIENT
-                        Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]
+                        Input patient information metadata file. If there is a patient ID or sample ID column, it should be placed in the first column. [required]
   --min_cells MIN_CELLS
                         Minimum number of cells for filtering (default=3).
   --min_genes MIN_GENES
