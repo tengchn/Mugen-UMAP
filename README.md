@@ -70,7 +70,7 @@ options:
   --plot_venn           Whether to plot Venn diagram (default=True).
   --venn VENN           Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.
 
-  Example: python3 src/Mugen-UMAP.py umap -i Examples/umap_format.csv
+  Example: python3 src/Mugen-UMAP.py umap -i Examples/umap_format.csv -c Patient_stage_type_status
 ```
 &NewLine;
 
