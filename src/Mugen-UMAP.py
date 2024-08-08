@@ -36,7 +36,7 @@ if __name__ == "__main__":
     parser_convert.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly. [required]")
     parser_convert.add_argument("-p", "--patient", type=str, help="Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]")
     parser_convert.add_argument("-o", "--output", type=str, help="Output AnnData CSV format. [required]")
-    parser_convert.add_argument('--variant_type', type=str, default='nonsynonymous', choices=['nonsynonymous', 'all'], help='Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants.')
+    parser_convert.add_argument('--variant_type', type=str, default='nonsynonymous', choices=['nonsynonymous', 'all'], help='Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants (default=nonsynonymous).')
     
 
     # Umap_plot command
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     parser_all = subparsers.add_parser('all', help='Execute full pipeline from ANNOVAR files to UMAP plotting.')
     parser_all.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly. [required]")
     parser_all.add_argument("-p", "--patient", type=str, help="Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]")
-    parser_all.add_argument('--variant_type', type=str, default='nonsynonymous', choices=['nonsynonymous', 'all'], help='Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants.')
+    parser_all.add_argument('--variant_type', type=str, default='nonsynonymous', choices=['nonsynonymous', 'all'], help='Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants (default=nonsynonymous).')
     parser_all.add_argument('--min_cells', type=int, default=3, help='Minimum number of cells for filtering (default=3).')
     parser_all.add_argument('--min_genes', type=int, default=30, help='Minimum number of genes for filtering (default=30).')
     parser_all.add_argument('--n_top_genes', type=int, default=3000, help='Number of top genes (default=3000).')
