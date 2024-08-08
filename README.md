@@ -3,7 +3,7 @@
 This Python program provides a comprehensive pipeline for processing ANNOVAR files, converting them into AnnData format, and generating UMAP visualizations along with various summary reports based on single-cell DNA sequencing data.
 &NewLine;
 
-![Mugen-UMAP diagram](Mugen-UMAP.png)
+![Mugen-UMAP diagram](Mugen-UMAP.jpg)
 
 ## Requirements
 - Python3 (test on Python 3.10.5)
