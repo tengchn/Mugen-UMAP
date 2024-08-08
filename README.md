@@ -13,12 +13,13 @@ This Python program provides a comprehensive pipeline for processing ANNOVAR fil
 - venny4py
 - matplotlib
 - leidenalg
+- louvain
 
 ## Install
 ```
 Clone the repository (git clone https://github.com/tengchn/Mugen-UMAP.git) directly to your local machine.
 cd Mugen-UMAP
-pip3 install numpy pandas scanpy venny4py leidenalg matplotlib
+pip3 install numpy pandas scanpy venny4py leidenalg matplotlib louvain
 python3 src/Mugen-UMAP.py -h
 ```
 
@@ -28,7 +29,7 @@ Mugen-UMAP offers three main features:
 1. **Convert**
    - Convert ANNOVAR files and patient information metadata to UMAP input format (i.e., AnnData format).
 ```
-python3 src/Mugen-UMAP.py convert [-h] [-i INPUT] [-p PATIENT] [-o OUTPUT]
+python3 src/Mugen-UMAP.py convert [-h] [-i INPUT] [-p PATIENT] [-o OUTPUT] [--variant_type {nonsynonymous,all}]
 
 options:
   -h, --help            show this help message and exit
@@ -38,8 +39,10 @@ options:
                         Input patient information metadata file. If there is a patient ID or sample ID column, it should be placed in the first column. [required]
   -o OUTPUT, --output OUTPUT
                         Output AnnData CSV format. [required]
+  --variant_type {nonsynonymous,all}
+                        Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants (default=nonsynonymous).
 
-  Example: python3 src/Mugen-UMAP.py convert -i Examples/SomSNVs_annovar.zip -p Examples/Patients_Stage.csv -o Examples/umap_format.csv
+  Example: python3 src/Mugen-UMAP.py convert -i Examples/12_NSCLC_patients/SomSNVs_annovar.zip -p Examples/12_NSCLC_patients/Patients_Stage.csv -o Examples/12_NSCLC_patients/umap_format.csv
 ```
 &NewLine;
 
@@ -47,7 +50,8 @@ options:
    - Plot UMAP figures from preprocessed data (i.e., AnnData format).
 ```
 python3 src/Mugen-UMAP.py umap [-h] [-i INPUT_UMAP] [-c CATEGORY_INFO] [--min_cells MIN_CELLS] [--min_genes MIN_GENES] [--n_top_genes N_TOP_GENES]
-                               [--n_neighbors N_NEIGHBORS] [--n_pcs N_PCS] [--leiden_resolution LEIDEN_RESOLUTION] [--plot_venn] [--venn VENN]
+                               [--n_neighbors N_NEIGHBORS] [--n_pcs N_PCS] [--leiden_resolution LEIDEN_RESOLUTION]
+                               [--louvain_resolution LOUVAIN_RESOLUTION] [--no_plot_venn] [--venn VENN]
 
 options:
   -h, --help            show this help message and exit
@@ -67,18 +71,21 @@ options:
   --n_pcs N_PCS         Number of principal components (default=40).
   --leiden_resolution LEIDEN_RESOLUTION
                         Leiden algorithm resolution (default=1.5).
-  --plot_venn           Whether to plot Venn diagram (default=True).
+  --louvain_resolution LOUVAIN_RESOLUTION
+                        Louvain algorithm resolution (default: None).
+  --no_plot_venn        Whether or not to plot Venn diagram (default is plot venn figure).
   --venn VENN           Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.
 
-  Example: python3 src/Mugen-UMAP.py umap -i Examples/umap_format.csv -c Patient_stage_type_status
+  Example: python3 src/Mugen-UMAP.py umap -i Examples/12_NSCLC_patients/umap_format.csv -c Patient_stage_type_status
 ```
 &NewLine;
 
 3. **All**
    - Execute full pipeline from ANNOVAR files to UMAP plotting.
 ```
-python3 src/Mugen-UMAP.py all [-h] [-i INPUT] [-p PATIENT] [--min_cells MIN_CELLS] [--min_genes MIN_GENES] [--n_top_genes N_TOP_GENES]
-                              [--n_neighbors N_NEIGHBORS] [--n_pcs N_PCS] [--leiden_resolution LEIDEN_RESOLUTION] [--plot_venn] [--venn VENN]
+python3 src/Mugen-UMAP.py all [-h] [-i INPUT] [-p PATIENT] [--variant_type {nonsynonymous,all}] [--min_cells MIN_CELLS] [--min_genes MIN_GENES]
+                              [--n_top_genes N_TOP_GENES] [--n_neighbors N_NEIGHBORS] [--n_pcs N_PCS] [--leiden_resolution LEIDEN_RESOLUTION]
+                              [--louvain_resolution LOUVAIN_RESOLUTION] [--no_plot_venn] [--venn VENN]
 
 options:
   -h, --help            show this help message and exit
@@ -86,6 +93,8 @@ options:
                         Input ANNOVAR zip file or ANNOVAR directory directly. [required]
   -p PATIENT, --patient PATIENT
                         Input patient information metadata file. If there is a patient ID or sample ID column, it should be placed in the first column. [required]
+  --variant_type {nonsynonymous,all}
+                        Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants (default=nonsynonymous).
   --min_cells MIN_CELLS
                         Minimum number of cells for filtering (default=3).
   --min_genes MIN_GENES
@@ -97,8 +106,10 @@ options:
   --n_pcs N_PCS         Number of principal components (default=40).
   --leiden_resolution LEIDEN_RESOLUTION
                         Leiden algorithm resolution (default=1.5).
-  --plot_venn           Whether to plot Venn diagram (default=True).
+  --louvain_resolution LOUVAIN_RESOLUTION
+                        Louvain algorithm resolution (default: None).
+  --no_plot_venn        Whether or not to plot Venn diagram (default is plot venn figure).
   --venn VENN           Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.
 
-  Example: python3 src/Mugen-UMAP.py all -i Examples/SomSNVs_annovar.zip -p Examples/Patients_Stage.csv
+  Example: python3 src/Mugen-UMAP.py all -i Examples/12_NSCLC_patients/SomSNVs_annovar.zip -p Examples/12_NSCLC_patients/Patients_Stage.csv
 ```
