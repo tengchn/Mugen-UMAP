@@ -5,27 +5,27 @@ import json
 from convert_process import convert
 from umap_plot import umap_plot
 
-def convert_annovar(input_path, patient_info_file, output_csv):
+def convert_annovar(input_path, patient_info_file, output_csv, variant_type):
     """
     Converts ANNOVAR files to UMAP input format.
     """
-    convert(input_path, patient_info_file, output_csv)
+    convert(input_path, patient_info_file, output_csv, variant_type)
 
-def umap(umap_input_file, category_info, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, plot_venn, venn):
+def umap(umap_input_file, category_info, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, louvain_resolution, no_plot_venn, venn):
     """
     Plots UMAP figure and generates summary and figures.
     """
-    umap_plot(umap_input_file, category_info, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, plot_venn, venn)
+    umap_plot(umap_input_file, category_info, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, louvain_resolution, no_plot_venn, venn)
 
-def all_in_one(input_path, patient_info_file, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, plot_venn, venn):
+def all_in_one(input_path, patient_info_file, variant_type, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, louvain_resolution, no_plot_venn, venn):
     """
     Combines ANNOVAR file conversion and UMAP plotting in one step.
     """
     output_csv = os.path.join(os.path.dirname(input_path), "umap_format.csv")
-    convert_annovar(input_path, patient_info_file, output_csv)
+    convert_annovar(input_path, patient_info_file, output_csv, variant_type)
     with open('categorical_columns.json', 'r') as f:
     	category_info = json.load(f)
-    umap_plot(output_csv, category_info, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, plot_venn, venn)
+    umap_plot(output_csv, category_info, min_cells, min_genes, n_top_genes, n_neighbors, n_pcs, leiden_resolution, louvain_resolution, no_plot_venn, venn)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process ANNOVAR files and generate UMAP plots.")
@@ -36,6 +36,8 @@ if __name__ == "__main__":
     parser_convert.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly. [required]")
     parser_convert.add_argument("-p", "--patient", type=str, help="Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]")
     parser_convert.add_argument("-o", "--output", type=str, help="Output AnnData CSV format. [required]")
+    parser_convert.add_argument('--variant_type', type=str, default='nonsynonymous', choices=['nonsynonymous', 'all'], help='Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants.')
+    
 
     # Umap_plot command
     parser_umap = subparsers.add_parser('umap', help='Plot UMAP figure from preprocessed data.')
@@ -47,27 +49,30 @@ if __name__ == "__main__":
     parser_umap.add_argument('--n_neighbors', type=int, default=60, help='Number of neighbors for UMAP (default=60).')
     parser_umap.add_argument('--n_pcs', type=int, default=40, help='Number of principal components (default=40).')
     parser_umap.add_argument('--leiden_resolution', type=float, default=1.5, help='Leiden algorithm resolution (default=1.5).')
-    parser_umap.add_argument('--plot_venn', action='store_false', help='Whether to plot Venn diagram (default=True).')
+    parser_umap.add_argument('--louvain_resolution', type=float, default=None, help='Louvain algorithm resolution (default: None).')
+    parser_umap.add_argument('--no_plot_venn', action='store_true', help='Whether or not to plot Venn diagram (default is plot venn figure).')
     parser_umap.add_argument('--venn', type=str, default='type', help='Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.')
 
     # All command
     parser_all = subparsers.add_parser('all', help='Execute full pipeline from ANNOVAR files to UMAP plotting.')
     parser_all.add_argument("-i", "--input", type=str, help="Input ANNOVAR zip file or ANNOVAR directory directly. [required]")
     parser_all.add_argument("-p", "--patient", type=str, help="Input patient information metadata file. If there is a patient ID column, it should be placed in the first column. [required]")
+    parser_all.add_argument('--variant_type', type=str, default='nonsynonymous', choices=['nonsynonymous', 'all'], help='Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants.')
     parser_all.add_argument('--min_cells', type=int, default=3, help='Minimum number of cells for filtering (default=3).')
     parser_all.add_argument('--min_genes', type=int, default=30, help='Minimum number of genes for filtering (default=30).')
     parser_all.add_argument('--n_top_genes', type=int, default=3000, help='Number of top genes (default=3000).')
     parser_all.add_argument('--n_neighbors', type=int, default=60, help='Number of neighbors for UMAP (default=60).')
     parser_all.add_argument('--n_pcs', type=int, default=40, help='Number of principal components (default=40).')
     parser_all.add_argument('--leiden_resolution', type=float, default=1.5, help='Leiden algorithm resolution (default=1.5).')
-    parser_all.add_argument('--plot_venn', action='store_false', help='Whether to plot Venn diagram (default=True).')
+    parser_all.add_argument('--louvain_resolution', type=float, default=None, help='Louvain algorithm resolution (default: None).')
+    parser_all.add_argument('--no_plot_venn', action='store_true', help='Whether or not to plot Venn diagram (default is plot venn figure).')
     parser_all.add_argument('--venn', type=str, default='type', help='Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.')
 
     args = parser.parse_args()
 
     if args.command == 'convert':
-        convert_annovar(args.input, args.patient, args.output)
+        convert_annovar(args.input, args.patient, args.output, args.variant_type)
     elif args.command == 'umap':
-        umap(args.input_umap, args.category_info, args.min_cells, args.min_genes, args.n_top_genes, args.n_neighbors, args.n_pcs, args.leiden_resolution, args.plot_venn, args.venn)
+        umap(args.input_umap, args.category_info, args.min_cells, args.min_genes, args.n_top_genes, args.n_neighbors, args.n_pcs, args.leiden_resolution, args.louvain_resolution, args.no_plot_venn, args.venn.lower())
     elif args.command == 'all':
-        all_in_one(args.input, args.patient, args.min_cells, args.min_genes, args.n_top_genes, args.n_neighbors, args.n_pcs, args.leiden_resolution, args.plot_venn, args.venn)
+        all_in_one(args.input, args.patient, args.variant_type, args.min_cells, args.min_genes, args.n_top_genes, args.n_neighbors, args.n_pcs, args.leiden_resolution, args.louvain_resolution, args.no_plot_venn, args.venn.lower())

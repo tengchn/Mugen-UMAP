@@ -11,7 +11,7 @@ import re
 import json
 from functools import reduce
 
-def convert(input_path, patient_info_file, output_csv):
+def convert(input_path, patient_info_file, output_csv, variant_type):
     """
     Extracts ANNOVAR files, processes for each patient, and outputs a CSV for UMAP.
     """
@@ -35,8 +35,7 @@ def convert(input_path, patient_info_file, output_csv):
     stats_all = []
     for patient_name in sorted(list(patients_info[patients_info.columns[0]])):
         patient_files = [file for file in files if re.search(str(patient_name), file)]
-        gene_count = [process_patient_file(patient_file) for patient_file in patient_files]
-        
+        gene_count = [process_patient_file(patient_file, variant_type) for patient_file in patient_files]
         # Merge counts for all files of a patient
         annovar_stat = reduce(lambda left, right: pd.merge(left, right, on='Gene.refGene', how='outer'), gene_count).fillna(0)
         stats_all.append(annovar_stat)
@@ -56,12 +55,13 @@ def convert(input_path, patient_info_file, output_csv):
     with open('categorical_columns.json', 'w') as f:
     	json.dump('_'.join(categorical_columns), f)
 
-def process_patient_file(patient_file):
+def process_patient_file(patient_file, variant_type):
     """
     Processes a single patient file for nonsynonymous SNV counts.
     """
     df = pd.read_csv(patient_file, sep="\t", header=0, quotechar='"', low_memory=False)
-    df = df[df['ExonicFunc.refGene'] == "nonsynonymous SNV"]
+    if variant_type == 'nonsynonymous':
+        df = df[df['ExonicFunc.refGene'] == "nonsynonymous SNV"]
     return df.groupby('Gene.refGene').size().reset_index(name=os.path.basename(patient_file).split('.')[0])
 
 def enhance_sample_names(annovar_stat_all, patients_info):

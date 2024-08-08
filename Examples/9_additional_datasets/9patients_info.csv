@@ -1,0 +1,10 @@
+﻿Patient,Tissue,Cells,SNVs,Sequencing
+Li,bladder,54,885,WES
+Hou,blood,71,1387,WES
+Wang-ER+,breast,46,355,WES
+Wang-TNBC,breast,15,1472,WES
+Wu-CRC0827,colon,50,652,WES
+WuCRC0827-polyps,colon,19,379,WES
+Wu-CRC0907,colon,49,574,WES
+Xu,kidney,20,747,WES
+Ni,lung,8,340,WES

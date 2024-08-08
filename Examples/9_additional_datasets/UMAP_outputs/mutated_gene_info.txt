@@ -1,0 +1,12 @@
+Patient Hou has 249 mutated genes in at least two cells.
+Patient with the same tissue of blood have 249 mutated genes.
+Patient Li has 73 mutated genes in at least two cells.
+Patient with the same tissue of bladder have 73 mutated genes.
+Patient Wang-ER+ has 66 mutated genes in at least two cells.
+Patient Wang-TNBC has 312 mutated genes in at least two cells.
+Patient with the same tissue of breast have 377 mutated genes.
+Patient Wu-CRC0827 has 116 mutated genes in at least two cells.
+Patient Wu-CRC0907 has 96 mutated genes in at least two cells.
+Patient with the same tissue of colon have 211 mutated genes.
+Patient Xu has 90 mutated genes in at least two cells.
+Patient with the same tissue of kidney have 90 mutated genes.

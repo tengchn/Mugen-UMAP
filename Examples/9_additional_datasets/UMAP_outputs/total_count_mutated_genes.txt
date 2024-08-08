@@ -1,0 +1,7 @@
+The average total count of mutated genes for Patient Hou is 133.89999389648438, with a minimum of 52 and a maximum of 237.
+The average total count of mutated genes for Patient Li is 37.47999954223633, with a minimum of 30 and a maximum of 53.
+The average total count of mutated genes for Patient Wang-ER+ is 38.849998474121094, with a minimum of 30 and a maximum of 49.
+The average total count of mutated genes for Patient Wang-TNBC is 215.27000427246094, with a minimum of 156 and a maximum of 248.
+The average total count of mutated genes for Patient Wu-CRC0827 is 58.15999984741211, with a minimum of 32 and a maximum of 82.
+The average total count of mutated genes for Patient Wu-CRC0907 is 46.0, with a minimum of 30 and a maximum of 59.
+The average total count of mutated genes for Patient Xu is 56.290000915527344, with a minimum of 33 and a maximum of 74.
