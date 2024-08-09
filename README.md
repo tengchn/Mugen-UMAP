@@ -7,7 +7,7 @@ This Python program provides a comprehensive pipeline for processing ANNOVAR fil
 
 ## Requirements
 - Python3 (test on Python 3.10.5)
-- scanpy
+- scanpy(>=1.9.8)
 - numpy
 - pandas
 - venny4py
