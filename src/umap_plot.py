@@ -24,8 +24,10 @@ def umap_plot(umap_input_file, category_info, min_cells=3, min_genes=30, n_top_g
     # Load data and transpose to have genes as columns
     adata = sc.read_csv(umap_input_file).T
     sc.settings.verbosity = 'error'
+    
     # Preprocessing
     sc.pp.calculate_qc_metrics(adata, percent_top=None, log1p=False, inplace=True)
+    
     # Plot distribution of number of mutated cells per gene
     mut_cells_per_gene = np.sum(adata.X > 0, axis=0)
     plt.figure(figsize=(10, 6))
@@ -37,17 +39,8 @@ def umap_plot(umap_input_file, category_info, min_cells=3, min_genes=30, n_top_g
     plt.legend()
     plt.savefig(f"{output_dir}/mut_cells_per_gene_distribution.png")
     plt.close()
-    # Plot distribution of number of mutated genes per cell
+    
     mut_genes_per_cell = np.sum(adata.X > 0, axis=1)
-    plt.figure(figsize=(10, 6))
-    plt.hist(mut_genes_per_cell, bins=50, color='lightgreen', range=(0, np.quantile(mut_genes_per_cell, 0.999)))
-    plt.axvline(x=min_genes, color='red', linestyle='dashed', label=f'Cutoff at {min_genes}')
-    plt.xlabel('Number of mutated genes per cell')
-    plt.ylabel('Frequency')
-    plt.title('Distribution of mutated genes per cell')
-    plt.legend()
-    plt.savefig(f"{output_dir}/mut_genes_per_cell_distribution.png")
-    plt.close()
     
     sc.pp.filter_genes(adata, min_cells)
     sc.pp.filter_cells(adata, min_genes)
@@ -55,6 +48,7 @@ def umap_plot(umap_input_file, category_info, min_cells=3, min_genes=30, n_top_g
     metadata_fields = category_info.split('_') 
     for i, field in enumerate(metadata_fields):
         adata.obs[field] = adata.obs.index.str.split('_').map(lambda x: x[i] if len(x) > i else 'unknown')
+    
     # Output adata.obs details
     adata.obs.to_csv(f"{output_dir}/adata_obs_details.txt", sep='\t')
     
@@ -66,14 +60,17 @@ def umap_plot(umap_input_file, category_info, min_cells=3, min_genes=30, n_top_g
     
     # Filter outliers based on QC
     upper_lim = np.quantile(adata.obs.n_genes_by_counts.values, .98)
-    
-    # Violin plot for number of genes with at least 1 count in a cell 
-    plt.figure(figsize=(8, 10))
-    sc.pl.violin(adata, ['n_genes_by_counts'], jitter=0.4, show=False)
-    plt.title('Violin plot of the number of genes with at least 1 count in a cell ')
-    plt.axhline(y=upper_lim, color='r', linestyle='--', label=f'Cutoff at {round(upper_lim,2)}')
-    plt.legend(loc='upper right')
-    plt.savefig(f"{output_dir}/violin_n_genes_by_counts_per_cell.png")
+
+    # Plot distribution of number of mutated genes per cell
+    plt.figure(figsize=(10, 6))
+    plt.hist(mut_genes_per_cell, bins=50, color='lightgreen', range=(0, np.quantile(mut_genes_per_cell, 0.999)))
+    plt.axvline(x=min_genes, color='red', linestyle='dashed', label=f'Lower cutoff at {min_genes}')
+    plt.axvline(x=upper_lim, color='blue', linestyle='dashed', label=f'Upper cutoff at {round(upper_lim,2)}')
+    plt.xlabel('Number of mutated genes per cell')
+    plt.ylabel('Frequency')
+    plt.title('Distribution of mutated genes per cell')
+    plt.legend()
+    plt.savefig(f"{output_dir}/mut_genes_per_cell_distribution.png")
     plt.close()
     
     adata = adata[adata.obs.n_genes_by_counts.values < upper_lim]
