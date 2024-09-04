@@ -42,7 +42,8 @@ options:
   --variant_type {nonsynonymous,all}
                         Type of variants to process: "nonsynonymous" for nonsynonymous SNVs, "all" for all variants (default=nonsynonymous).
 
-  Example: python3 src/Mugen-UMAP.py convert -i Examples/12_NSCLC_patients/SomSNVs_annovar.zip -p Examples/12_NSCLC_patients/Patients_Stage.csv -o Examples/12_NSCLC_patients/umap_format.csv
+  Examples: python3 src/Mugen-UMAP.py convert -i Examples/12_NSCLC_patients/SomSNVs_annovar.zip -p Examples/12_NSCLC_patients/Patients_Stage.csv -o Examples/12_NSCLC_patients/umap_format.csv
+            python3 src/Mugen-UMAP.py convert -i Examples/9_additional_datasets/9patients_332cells.zip -p Examples/9_additional_datasets/9patients_info.csv -o Examples/9_additional_datasets/umap_format.csv
 ```
 &NewLine;
 
@@ -76,7 +77,8 @@ options:
   --no_plot_venn        Whether or not to plot Venn diagram (default is plot venn figure).
   --venn VENN           Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.
 
-  Example: python3 src/Mugen-UMAP.py umap -i Examples/12_NSCLC_patients/umap_format.csv -c Patient_stage_type_status
+  Examples: python3 src/Mugen-UMAP.py umap -i Examples/12_NSCLC_patients/umap_format.csv -c Patient_stage_type_status
+            python3 src/Mugen-UMAP.py umap -i Examples/9_additional_datasets/umap_format.csv -c Patient_Tissue_Sequencing --venn Tissue
 ```
 &NewLine;
 
@@ -111,5 +113,6 @@ options:
   --no_plot_venn        Whether or not to plot Venn diagram (default is plot venn figure).
   --venn VENN           Which categorical information used to plot Venn diagram (default=type). NOTE: Cannot plot a Venn diagram for more than 4 groups.
 
-  Example: python3 src/Mugen-UMAP.py all -i Examples/12_NSCLC_patients/SomSNVs_annovar.zip -p Examples/12_NSCLC_patients/Patients_Stage.csv
+  Examples: python3 src/Mugen-UMAP.py all -i Examples/12_NSCLC_patients/SomSNVs_annovar.zip -p Examples/12_NSCLC_patients/Patients_Stage.csv
+            python3 src/Mugen-UMAP.py all -i Examples/9_additional_datasets/9patients_332cells.zip -p Examples/9_additional_datasets/9patients_info.csv --venn Tissue
 ```
