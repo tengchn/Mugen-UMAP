@@ -116,3 +116,16 @@ options:
   Examples: python3 src/Mugen-UMAP.py all -i Examples/12_NSCLC_patients/SomSNVs_annovar.zip -p Examples/12_NSCLC_patients/Patients_Stage.csv
             python3 src/Mugen-UMAP.py all -i Examples/9_additional_datasets/9patients_332cells.zip -p Examples/9_additional_datasets/9patients_info.csv --venn Tissue
 ```
+
+## Citation
+
+If you use **Mugen-UMAP** in your research, please cite:
+
+> Li T, Zou Y, Li X, Wong T, Rodrigo A. Mugen-UMAP: UMAP visualization and clustering of mutated genes in single-cell DNA sequencing data. *BMC Bioinformatics*. 2024;25:308.
+
+If you use the **`12_NSCLC_patients`** dataset, please also cite both of the following publications:
+
+> Li T, Li X, Zou Y, Wong T, Campa M, Patz E, Rodrigo A. Phylogenetic and phylodynamic approaches to understanding the evolution of non-small-cell lung cancer using single-cell sequencing. *Oncogene*. 2026. https://doi.org/10.1038/s41388-026-03997-1
+
+> Li X, Zou Y, Li T, Wong T, Bushey R, Campa M, Gottlin E, et al. Genetic variants of CLPP and M1AP are associated with risk of non-small cell lung cancer. *Frontiers in Oncology*. 2021;11:3566.
+
